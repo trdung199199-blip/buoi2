@@ -79,7 +79,8 @@
       function update() {
         const tong = list.children.length;
         const daMua = list.querySelectorAll(".mua").length;
-        soluong.textContent = `Mua ${daMua}/${tong} món`;
+        const chuaMua = tong - daMua
+        soluong.textContent = `Số món chưa mua là: ${chuaMua}/${tong} món`;
       }
     </script>
   </body>
