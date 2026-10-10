@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DS đi chợ</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+
+      #container {
+        width: 400px;
+        margin: 50px auto;
+      }
+
+      input {
+        padding: 8px;
+      }
+
+      button {
+        padding: 8px 15px;
+        cursor: pointer;
+      }
+
+      li {
+        margin: 10px 0;
+        cursor: pointer;
+      }
+
+      .mua {
+        text-decoration: line-through;
+        color: gray;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container">
+      <form id="form">
+        <label for="name">Tên món:</label>
+        <input type="text" id="name" placeholder="Nhập tên món" required />
+        <br />
+        <br />
+        <button type="submit">Thêm món</button>
+      </form>
+      <p id="soluong">Còn 0/0 món chưa mua</p>
+      <ul id="list"></ul>
+    </div>
+
+    <script>
+      const form = document.getElementById("form");
+      const onhap = document.getElementById("name");
+      const list = document.getElementById("list");
+      const soluong = document.getElementById("soluong");
+
+      let ds = JSON.parse(localStorage.getItem("ds")) || [];
+
+      function hienThi() {
+        list.innerHTML = "";
+        ds.forEach((name, index) => {
+          const li = document.createElement("li");
+          const span = document.createElement("span");
+          span.textContent = name;
+          li.append(span);
+          list.append(li);
+
+          li.addEventListener("click", () => {
+            li.classList.toggle("mua");
+            update();
+          });
+
+          li.addEventListener("dblclick", () => {
+            ds.splice(index, 1);
+            localStorage.setItem("ds", JSON.stringify(ds));
+            hienThi();
+          });
+        });
+        update();
+      }
+
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const name = onhap.value.trim();
+        if (name === "") return;
+        ds.push(name);
+        localStorage.setItem("ds", JSON.stringify(ds));
+        hienThi();
+        onhap.value = "";
+        onhap.focus();
+      });
+
+      function update() {
+        const tong = list.children.length;
+        const daMua = list.querySelectorAll(".mua").length;
+        const chuaMua = tong - daMua;
+        soluong.textContent = `Còn ${chuaMua}/${tong} món chưa mua`;
+      }
+      hienThi();
+    </script>
+  </body>
+</html>
