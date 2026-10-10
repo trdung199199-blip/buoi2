@@ -43,7 +43,7 @@
         <br />
         <button type="submit">Thêm món</button>
       </form>
-      <p id="soluong">Mua 0/0 món</p>
+      <p id="soluong">Còn 0/0 món chưa mua</p>
       <ul id="list"></ul>
     </div>
 
@@ -80,7 +80,7 @@
         const tong = list.children.length;
         const daMua = list.querySelectorAll(".mua").length;
         const chuaMua = tong - daMua
-        soluong.textContent = `Số món chưa mua là: ${chuaMua}/${tong} món`;
+        soluong.textContent = `Còn ${chuaMua}/${tong} món chưa mua`;
       }
     </script>
   </body>
